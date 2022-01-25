@@ -11,51 +11,41 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.clothesvillage.base.BaseActivity;
+import com.example.clothesvillage.databinding.ActivityLoginBinding;
+import com.example.clothesvillage.remote.ClothesRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     private static final String TAG = "SignUpActivity";
     private FirebaseAuth mAuth;
+    private ClothesRepository clothesRepository;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    protected int layoutRes() {
+        return R.layout.activity_login;
+    }
 
+    @Override
+    protected void onViewCreated() {
         mAuth = FirebaseAuth.getInstance();
+        clothesRepository = ClothesRepository.getInstance();
 
-        findViewById(R.id.btn_login).setOnClickListener(onClickListener);
-        findViewById(R.id.btn_goto_signup).setOnClickListener(onClickListener);
+        binding.btnLogin.setOnClickListener(view -> signup());
+        binding.btnGotoSignup.setOnClickListener(view -> startSignUpActivity());
+
+        binding.editId.setText("test@test.com");
+        binding.editPass.setText("test123");
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-    }
-
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_login:
-                    signup();
-                    break;
-                case R.id.btn_goto_signup:
-                    startSignUpActivity();
-                    break;
-            }
-        }
-    };
 
     private void signup() {
-        String email = ((EditText)findViewById(R.id.edit_email)).getText().toString();
-        String password = ((EditText)findViewById(R.id.edit_password)).getText().toString();
+        String email =   binding.editId.getText().toString();
+        String password = binding.editPass.getText().toString();
 
         if(email.length() > 0 && password.length() > 0) {
             mAuth.signInWithEmailAndPassword(email, password)

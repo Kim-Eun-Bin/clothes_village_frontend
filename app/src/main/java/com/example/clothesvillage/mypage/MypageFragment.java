@@ -15,34 +15,32 @@ import androidx.fragment.app.Fragment;
 import com.example.clothesvillage.LoginActivity;
 import com.example.clothesvillage.R;
 import com.example.clothesvillage.SignUpActivity;
+import com.example.clothesvillage.base.BaseFragment;
+import com.example.clothesvillage.databinding.FragmentMypageBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MypageFragment extends Fragment implements View.OnClickListener {
+public class MypageFragment extends BaseFragment<FragmentMypageBinding> implements View.OnClickListener {
     private View view;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_mypage, container, false);
-
-        Button button = view.findViewById(R.id.btn_logout);
-        button.setOnClickListener(this);
-
-        return view;
+    protected int layoutRes() {
+        return R.layout.fragment_mypage;
     }
 
-    public void onClick(View v) {
-        switch(v.getId()) {
-            case R.id.btn_logout:
-                FirebaseAuth.getInstance().signOut();
-                startSignUpActivity();
-                break;
-        }
+    @Override
+    protected void onViewCreated() {
+
     }
 
-    private void startSignUpActivity() {
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        startActivity(intent);
+    @Override
+    public void onClick(View view) {
+
     }
+
+
+//    private void startSignUpActivity() {
+//        Intent intent = new Intent(getActivity(), LoginActivity.class);
+//        startActivity(intent);
+//    }
 
 }

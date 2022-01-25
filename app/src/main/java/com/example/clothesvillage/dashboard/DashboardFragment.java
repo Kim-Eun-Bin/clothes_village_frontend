@@ -1,25 +1,26 @@
 package com.example.clothesvillage.dashboard;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.Intent;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import com.example.clothesvillage.L;
 import com.example.clothesvillage.R;
+import com.example.clothesvillage.base.BaseFragment;
+import com.example.clothesvillage.dashboard.cody.CodyRegisterActivity;
+import com.example.clothesvillage.databinding.FragmentDashboardBinding;
 
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> {
 
-    private View view;
 
-    @Nullable
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-
-        return view;
+    protected int layoutRes() {
+        return R.layout.fragment_dashboard;
     }
+
+    @Override
+    protected void onViewCreated() {
+        L.i("::::DashboardFragment");
+        binding.ivAdd.setOnClickListener(view -> startActivity(new Intent(getActivity(), CodyRegisterActivity.class)));
+    }
+
 }
